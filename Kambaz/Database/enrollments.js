@@ -20,21 +20,6 @@ export default [
     "course": "RS101"
   },
   {
-    "_id": "6",
-    "user": "234",
-    "course": "RS102"
-  },
-  {
-    "_id": "7",
-    "user": "789",
-    "course": "RS102"
-  },
-  {
-    "_id": "8",
-    "user": "890",
-    "course": "RS102"
-  },
-  {
     "_id": "d5d10e83-b6dd-4866-9226-f2bc796606a1",
     "user": "123",
     "course": "bcd3d8f4-f247-46fa-b523-6a72028dfbba"
@@ -45,22 +30,32 @@ export default [
     "course": "bcd3d8f4-f247-46fa-b523-6a72028dfbba"
   },
   {
-    "_id": "27d698bd-a7c5-4afa-afa7-2d70ed65211b",
-    "user": "123",
-    "course": "RS103"
+    "_id": "0f3d070d-6218-49c8-a306-37fa15c264ff",
+    "user": "777",
+    "course": "cca12e03-35ef-4f8b-a49c-7a88d4573698"
   },
   {
-    "_id": "52fdc1f7-c85c-46cd-a117-23cfb7078c8d",
-    "user": "123",
-    "course": "RS104"
+    "_id": "6f32b368-9719-4085-bd36-1b7b49aa7266",
+    "user": "777",
+    "course": "ef6bedd5-ae5c-49ec-b4bb-685f873e27bb"
   },
   {
-    "_id": "2fa1584c-e41b-4598-9ce3-5d7a4194f2b3",
-    "user": "123",
-    "course": "RS102"
+    "_id": "22a00f8f-800e-4398-ad43-795967bc4942",
+    "user": "777",
+    "course": "afa6a9c0-2279-4023-9218-fd4cb1d750ae"
   },
   {
-    "_id": "ca5af861-6125-45d6-b9ac-71249c774cdb",
+    "_id": "bf01da05-4227-4b84-8e8d-7b3287ac5022",
+    "user": "777",
+    "course": "dc4e41f0-a873-48d5-bf24-e978209d764f"
+  },
+  {
+    "_id": "a5f0b442-4952-4282-ad31-5f4e116b712b",
+    "user": "777",
+    "course": "a5128ff4-b7b9-411c-ac27-0eeb7a9b6a86"
+  },
+  {
+    "_id": "b983eff3-635e-4363-bea1-9a2c1b944371",
     "user": "777",
     "course": "RS101"
   }

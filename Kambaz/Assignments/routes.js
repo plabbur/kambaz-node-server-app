@@ -1,35 +1,31 @@
-import AssignmentsDao from "./dao.js";
+import AssignmentsDao from "../Assignments/dao.js";
+export default function AssignmentsRoutes(app) {
+  const dao = AssignmentsDao();
 
-export default function AssignmentsRoutes(app, db) {
-  const dao = AssignmentsDao(db);
+  app.get("/api/courses/:cid/assignments", async (req, res) => {
+    const { cid } = req.params;
+    const assignments = await dao.findAssignmentsForCourse(cid);
+    console.log("Found assignments:", assignments);
+    console.log("First assignment:", assignments[0]);
+    res.json(assignments);
+  });
 
-  const findAssignmentsForCourse = (req, res) => {
-    const { courseId } = req.params;
-    const assignments = dao.findAssignmentsForCourse(courseId);
-    return res.json(assignments);
-  };
+  app.post("/api/assignments", async (req, res) => {
+    const assignment = await dao.createAssignment(req.body);
+    res.status(201).json(assignment);
+  });
 
-  const createAssignment = (req, res) => {
-    const assignment = req.body;
-    const created = dao.createAssignment(assignment);
-    return res.json(created);
-  };
-
-  const deleteAssignment = (req, res) => {
+  app.put("/api/assignments/:aid", async (req, res) => {
     const { aid } = req.params;
-    dao.deleteAssignment(aid);
-    return res.sendStatus(200);
-  };
+    const updated = await dao.updateAssignment(aid, req.body);
+    res.json(updated);
+  });
 
-  const updateAssignment = (req, res) => {
+  app.delete("/api/assignments/:aid", async (req, res) => {
     const { aid } = req.params;
-    const updates = req.body;
-    const updated = dao.updateAssignment(aid, updates);
-    return res.json(updated);
-  };
-
-  app.get("/api/courses/:courseId/assignments", findAssignmentsForCourse);
-  app.post("/api/assignments", createAssignment);
-  app.delete("/api/assignments/:aid", deleteAssignment);
-  app.put("/api/assignments/:aid", updateAssignment);
+    console.log("DELETE request received for assignment:", aid);
+    const status = await dao.deleteAssignment(aid);
+    console.log("Delete status:", status);
+    res.send(status);
+  });
 }
