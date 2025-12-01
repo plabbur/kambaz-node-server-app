@@ -45,11 +45,6 @@ export default [
     "course": "bcd3d8f4-f247-46fa-b523-6a72028dfbba"
   },
   {
-    "_id": "fa7deb81-94cc-4c33-8b83-dcd55daeea6f",
-    "user": "123",
-    "course": "RS102"
-  },
-  {
     "_id": "27d698bd-a7c5-4afa-afa7-2d70ed65211b",
     "user": "123",
     "course": "RS103"
@@ -58,5 +53,15 @@ export default [
     "_id": "52fdc1f7-c85c-46cd-a117-23cfb7078c8d",
     "user": "123",
     "course": "RS104"
+  },
+  {
+    "_id": "2fa1584c-e41b-4598-9ce3-5d7a4194f2b3",
+    "user": "123",
+    "course": "RS102"
+  },
+  {
+    "_id": "ca5af861-6125-45d6-b9ac-71249c774cdb",
+    "user": "777",
+    "course": "RS101"
   }
 ];
