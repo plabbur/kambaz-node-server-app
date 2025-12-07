@@ -13,6 +13,7 @@ import QuizAttemptsRoutes from "./Kambaz/QuizAttempts/routes.js";
 import EnrollmentsRoutes from "./Kambaz/Enrollments/routes.js";
 import "dotenv/config";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const CONNECTION_STRING =
   process.env.DATABASE_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kambaz";
@@ -29,8 +30,12 @@ const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: CONNECTION_STRING,
+    touchAfter: 24 * 3600, // lazy update sessions after 24 hours
+  }),
   cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   },
 };
 if (process.env.SERVER_ENV !== "development") {
@@ -38,7 +43,7 @@ if (process.env.SERVER_ENV !== "development") {
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 }
 app.use(session(sessionOptions));
