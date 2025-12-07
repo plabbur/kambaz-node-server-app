@@ -26,27 +26,47 @@ app.use(
     origin: process.env.CLIENT_URL || "http://localhost:3000",
   })
 );
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "kambaz",
   resave: false,
   saveUninitialized: false,
+
   store: MongoStore.create({
     mongoUrl: CONNECTION_STRING,
     touchAfter: 24 * 3600, // lazy update sessions after 24 hours
   }),
-  cookie: {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  },
 };
+
 if (process.env.SERVER_ENV !== "development") {
+  // Production
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
     sameSite: "none",
     secure: true,
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  };
+} else {
+  // Development
+  sessionOptions.cookie = {
+    sameSite: "lax",
+    secure: false,
+    httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 }
+
 app.use(session(sessionOptions));
+app.use((req, res, next) => {
+  console.log("=== Session Debug ===");
+  console.log("Session ID:", req.sessionID);
+  console.log("Session data:", req.session);
+  console.log("Cookie:", req.headers.cookie);
+  console.log("===================");
+  next();
+});
+
 app.use(express.json());
 UserRoutes(app, db);
 CourseRoutes(app, db);

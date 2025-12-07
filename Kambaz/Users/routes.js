@@ -55,11 +55,15 @@ export default function UserRoutes(app) {
 
   const signin = async (req, res) => {
     const { username, password } = req.body;
+    console.log("Signin attempt for username:", username);
     const currentUser = await dao.findUserByCredentials(username, password);
     if (currentUser) {
+      console.log("User found, setting session. Session ID:", req.sessionID);
       req.session["currentUser"] = currentUser;
+      console.log("Session after setting user:", req.session);
       res.json(currentUser);
     } else {
+      console.log("Invalid credentials");
       res.status(401).json({ message: "Unable to login. Try again later." });
     }
   };
@@ -69,15 +73,38 @@ export default function UserRoutes(app) {
     res.sendStatus(200);
   };
 
+  // const profile = (req, res) => {
+  //   console.log("Profile endpoint hit");
+  //   console.log("Session ID:", req.sessionID);
+  //   console.log("Session data:", req.session);
+  //   console.log("Current user in session:", req.session["currentUser"]);
+
+  //   const currentUser = req.session["currentUser"];
+  //   if (!currentUser) {
+  //     console.log("No current user found, sending 401");
+  //     res.sendStatus(401);
+  //     return;
+  //   }
+  //   console.log("Returning user:", currentUser);
+  //   res.json(currentUser);
+  // };
   const profile = (req, res) => {
+    console.log("=== PROFILE ENDPOINT ===");
+    console.log("Session ID:", req.sessionID);
+    console.log("Session exists:", !!req.session);
+    console.log("Current user exists:", !!req.session["currentUser"]);
+    console.log("Current user data:", req.session["currentUser"]);
+    console.log("========================");
+
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
-      res.sendStatus(401);
+      res.status(401).json({ message: "Not authenticated" });
       return;
     }
     res.json(currentUser);
   };
 
+  app.get("/api/users/profile", profile);
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
@@ -86,5 +113,14 @@ export default function UserRoutes(app) {
   app.post("/api/users/signup", signup);
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
-  app.get("/api/users/profile", profile);
+  // app.get("/api/users/profile", (req, res) => {
+  //   console.log("Profile endpoint - Session:", req.session);
+  //   console.log("Profile endpoint - User:", req.session.user);
+
+  //   if (req.session.user) {
+  //     res.json(req.session.user);
+  //   } else {
+  //     res.status(401).json({ message: "Not authenticated" });
+  //   }
+  // });
 }
