@@ -11,19 +11,24 @@ export default function EnrollmentsDao(db) {
 
   async function findCoursesForUser(userId) {
     const enrollments = await model.find({ user: userId }).populate("course");
-    return enrollments.map((enrollment) => enrollment.course);
+    return enrollments.map((enrollment) => enrollment.course).filter(course => course !== null);
   }
 
   async function findUsersForCourse(courseId) {
     const enrollments = await model.find({ course: courseId }).populate("user");
-    return enrollments.map((enrollment) => enrollment.user);
+    return enrollments.map((enrollment) => enrollment.user).filter(user => user !== null);
   }
 
-  function enrollUserInCourse(userId, courseId) {
+  async function enrollUserInCourse(userId, courseId) {
+    // Check if already enrolled
+    const existing = await model.findOne({ user: userId, course: courseId });
+    if (existing) {
+      return existing;
+    }
     return model.create({
       user: userId,
       course: courseId,
-      _id: `${userId}-${courseId}`,
+      _id: uuidv4(),
     });
   }
 

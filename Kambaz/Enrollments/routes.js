@@ -17,8 +17,13 @@ export default function EnrollmentsRoutes(app, db) {
 
   app.post("/api/enrollments", async (req, res) => {
     const { userId, courseId } = req.body;
-    const result = await dao.enrollUserInCourse(userId, courseId);
-    return res.status(201).json(result);
+    try {
+      const result = await dao.enrollUserInCourse(userId, courseId);
+      return res.status(201).json(result);
+    } catch (error) {
+      console.error("Error enrolling user:", error);
+      return res.status(500).json({ error: error.message });
+    }
   });
 
   app.delete("/api/enrollments", async (req, res) => {
